@@ -22,8 +22,11 @@ public class Conexion {
     {
         try
         {
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            conn = DriverManager.getConnection(this.url, this.user, this.pass);
+            if (getDatosConexion())
+            {
+                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+                conn = DriverManager.getConnection(this.url, this.user, this.pass);
+            }
         }
         catch(SQLException ex)
         {
@@ -41,7 +44,7 @@ public class Conexion {
                 prop.load(file);
                 this.url = prop.getProperty("url");
                 this.user = prop.getProperty("user");
-                this.pass = prop.getProperty("pass");
+                this.pass = prop.getProperty("password");
                 return true;
             }
         } catch (Exception ex) {

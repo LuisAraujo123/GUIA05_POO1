@@ -236,6 +236,8 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Equipos", jPanel1);
 
+        jPanel2.setBackground(new java.awt.Color(204, 102, 0));
+
         jLabel4.setText("Codigo:");
 
         txtCodJuga.setEditable(false);

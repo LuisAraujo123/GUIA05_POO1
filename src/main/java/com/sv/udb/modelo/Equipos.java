@@ -52,9 +52,7 @@ public class Equipos {
     public String toString() {
         return this.nombEqui;
     }
-    
-    
-    
+         
     
     
 }

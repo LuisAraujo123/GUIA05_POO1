@@ -5,93 +5,32 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.modelo.Equipos;
+import com.sv.udb.modelo.Jugadores;
 import com.sv.udb.recursos.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author bernardo
  */
-public class EquiposCtrl {
+public class JugadoresCtrl {
     
-    public boolean guar(Equipos obje){
+    public boolean guar(Jugadores obje){
         boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("INSERT INTO equipos VALUES(NULL, ?, ?)");
-            cmd.setString(1, obje.getNombEqui());
-            cmd.setString(2, obje.getDescEqui());
-            cmd.executeUpdate();
-            resp = true;
-            
-        } catch (Exception ex) {
-            System.err.println("Error: " + ex.getMessage());
-        }
-        finally 
-        {
-            try 
-            {
-                if (cn!=null)
-                {
-                    if (!cn.isClosed())
-                    {
-                        cn.close();
-                    }
-                }
-            } 
-            catch (Exception e) 
-            {
-                System.err.println("Error: " + e.getMessage());
-            }
-        }
-        return resp;
-    }
-    
-    public boolean upda(Equipos obje){
-        boolean resp = false;
-        Connection cn = new Conexion().getConn();
-        try {
-            PreparedStatement cmd = cn.prepareStatement("update equipos set nomb_equi = ?, desc_equi = ? where codi_equi = ?;");
-            cmd.setString(1, obje.getNombEqui());
-            cmd.setString(2, obje.getDescEqui());
-            cmd.setInt(3, obje.getCodiEqui());
-            cmd.executeUpdate();
-            resp = true;
-            
-        } catch (Exception ex) {
-            System.err.println("Error: " + ex.getMessage());
-        }
-        finally 
-        {
-            try 
-            {
-                if (cn!=null)
-                {
-                    if (!cn.isClosed())
-                    {
-                        cn.close();
-                    }
-                }
-            } 
-            catch (Exception e) 
-            {
-                System.err.println("Error: " + e.getMessage());
-            }
-        }
-        return resp;
-    }
-    
-    public boolean dele(Equipos obje){
-        boolean resp = false;
-        Connection cn = new Conexion().getConn();
-        try {
-            PreparedStatement cmd = cn.prepareStatement("delete from equipos where codi_equi = ?");
+            PreparedStatement cmd = cn.prepareStatement("INSERT INTO Jugadores VALUES(NULL, ?, ?, ?, ?, ?)");
             cmd.setInt(1, obje.getCodiEqui());
+            cmd.setString(2, obje.getNombJuga());
+            cmd.setString(3, obje.getEdadJuga());
+            cmd.setInt(4, obje.getAltuJuga());
+            cmd.setString(5, obje.getPesoJuga());
             cmd.executeUpdate();
             resp = true;
             
@@ -118,18 +57,20 @@ public class EquiposCtrl {
         return resp;
     }
     
-    
-    
-    public List<Equipos> consTodo(){
-        List<Equipos> resp = new ArrayList<>();
+    public boolean upda(Jugadores obje){
+        boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("Select * from equipos");
-            ResultSet rs = cmd.executeQuery();
-            while (rs.next())
-            {
-                resp.add(new Equipos(rs.getInt(1), rs.getString(2), rs.getString(3)));
-            }
+            PreparedStatement cmd = cn.prepareStatement("update jugadores set codi_equi = ?, nomb_juga = ?, edad_juga = ?, altu_juga = ?, peso_juga = ? where codi_juga = ?;");
+            cmd.setInt(1, obje.getCodiEqui());
+            cmd.setString(2, obje.getNombJuga());
+            cmd.setString(3, obje.getEdadJuga());
+            cmd.setInt(4, obje.getAltuJuga());
+            cmd.setString(5, obje.getPesoJuga());
+            cmd.setInt(6, obje.getCodiJuga());
+            cmd.executeUpdate();
+            resp = true;
+            
         } catch (Exception ex) {
             System.err.println("Error: " + ex.getMessage());
         }
@@ -153,21 +94,51 @@ public class EquiposCtrl {
         return resp;
     }
     
-    public Equipos consUno(int id){
-        Equipos resp = new Equipos();
+    public boolean dele(Jugadores obje){
+        boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("Select * from equipos where codi_equi = ?;");
-            cmd.setInt(1, id);
+            PreparedStatement cmd = cn.prepareStatement("delete from jugadores where codi_juga = ?");
+            cmd.setInt(1, obje.getCodiJuga());
+            cmd.executeUpdate();
+            resp = true;
+            
+        } catch (Exception ex) {
+            System.err.println("Error: " + ex.getMessage());
+        }
+        finally 
+        {
+            try 
+            {
+                if (cn!=null)
+                {
+                    if (!cn.isClosed())
+                    {
+                        cn.close();
+                    }
+                }
+            } 
+            catch (Exception e) 
+            {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+        return resp;
+    }
+    
+    public List<Jugadores> consTodo(){
+        List<Jugadores> resp = new ArrayList<>();
+        Connection cn = new Conexion().getConn();
+        try {
+            PreparedStatement cmd = cn.prepareStatement("select codi_juga, jugadores.codi_equi, nomb_juga, nomb_equi, edad_juga, altu_juga, peso_juga from jugadores,equipos where jugadores.codi_equi = equipos.codi_equi;");
             ResultSet rs = cmd.executeQuery();
             while (rs.next())
             {
-                resp.setCodiEqui(rs.getInt(1));
-                resp.setNombEqui(rs.getString(2));
-                resp.setDescEqui(rs.getString(3));
+                resp.add(new Jugadores(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7)));
             }
         } catch (Exception ex) {
             System.err.println("Error: " + ex.getMessage());
+            
         }
         finally 
         {

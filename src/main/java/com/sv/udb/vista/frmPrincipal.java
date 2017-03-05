@@ -265,7 +265,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Equipos", jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(204, 102, 0));
+        jPanel2.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel4.setText("Codigo:");
 
@@ -445,6 +445,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Jugadores", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(0, 204, 255));
 
         jLabel10.setText("Codigo:");
 
@@ -667,8 +669,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.txtEdad.setText("");
         this.txtJuga.setText("");
         this.txtPeso.setText("");
-        
-        
+        this.txtCodPart.setText("");
+        this.txtMarc1.setText("");
+        this.txtMarc2.setText("");
+        this.txtFec.setText("");
+        this.txtHora.setText("");
+        this.txtLuga.setText("");
     }
     private void actTabEqui() {
         try {
